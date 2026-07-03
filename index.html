@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>林见夏 | 个人博客</title>
+  <title>Power | 个人博客</title>
   <style>
     :root {
       --bg: #07111f;
@@ -193,6 +193,107 @@
       border: 1px solid var(--border);
     }
 
+    .edit-trigger {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--border);
+      font-weight: 600;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .edit-trigger:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 255, 255, 0.14);
+    }
+
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0, 0, 0, 0.55);
+      z-index: 25;
+      padding: 20px;
+    }
+
+    .modal-backdrop.active {
+      display: flex;
+    }
+
+    .modal {
+      width: min(680px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      background: rgba(8, 15, 30, 0.98);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .modal h2 {
+      margin: 0 0 16px;
+      font-size: 1.3rem;
+    }
+
+    .modal label {
+      display: block;
+      margin: 18px 0 8px;
+      color: var(--text);
+      font-size: 0.95rem;
+      font-weight: 600;
+    }
+
+    .modal input,
+    .modal textarea {
+      width: 100%;
+      min-height: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+      resize: vertical;
+    }
+
+    .modal textarea {
+      min-height: 100px;
+    }
+
+    .modal-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .modal-close,
+    .modal-save {
+      border: none;
+      border-radius: 999px;
+      cursor: pointer;
+      padding: 12px 18px;
+      font-weight: 600;
+    }
+
+    .modal-close {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .modal-save {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: white;
+    }
+
+    .status-tip {
+      margin-top: 12px;
+      color: var(--accent);
+      font-size: 0.95rem;
+    }
+
     .side-card {
       padding: 22px;
       display: grid;
@@ -210,6 +311,76 @@
       display: block;
       font-size: 1.2rem;
       margin-bottom: 4px;
+    }
+
+    .weather-card {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(11, 18, 36, 0.9);
+      border: 1px solid rgba(91, 192, 255, 0.16);
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .weather-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .weather-header strong {
+      font-size: 1rem;
+    }
+
+    .weather-temp {
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.01em;
+      margin: 0;
+    }
+
+    .weather-desc {
+      color: var(--muted);
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .weather-meta {
+      color: #9db5d8;
+      font-size: 0.88rem;
+      letter-spacing: 0.02em;
+    }
+
+    .weather-search {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .weather-search input {
+      width: 100%;
+      min-height: 44px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 14px;
+      color: var(--text);
+      padding: 12px 14px;
+      font: inherit;
+    }
+
+    .weather-search button {
+      min-width: 100px;
+      border-radius: 999px;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .weather-search button:hover {
+      opacity: 0.92;
     }
 
     .status-pill {
@@ -278,6 +449,274 @@
       font-size: 0.9rem;
     }
 
+    .gallery-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .gallery-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+
+    .gallery-card img,
+    .gallery-card video {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .gallery-card p {
+      margin: 0;
+      padding: 16px;
+      color: var(--muted);
+      line-height: 1.75;
+    }
+
+    .gallery-card video {
+      max-height: 280px;
+      background: black;
+    }
+
+    .album-grid {
+      display: grid;
+      gap: 18px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      margin-top: 18px;
+    }
+
+    .album-card {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .album-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(91, 192, 255, 0.35);
+    }
+
+    .album-cover {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .album-info {
+      padding: 18px;
+    }
+
+    .album-title {
+      margin: 0 0 10px;
+      font-size: 1.05rem;
+      color: var(--text);
+    }
+
+    .album-meta {
+      margin: 0;
+      color: #9db5d8;
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+
+    .album-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .album-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .album-btn:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-1px);
+    }
+
+    .album-btn.delete {
+      color: #ff8b8b;
+      border-color: rgba(255,140,140,0.22);
+    }
+
+    .album-detail {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.75);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+      padding: 20px;
+    }
+
+    .album-detail.active {
+      display: flex;
+    }
+
+    .album-detail-inner {
+      width: min(1120px, 100%);
+      max-height: 90vh;
+      overflow: auto;
+      background: rgba(8, 15, 30, 0.98);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+
+    .detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+    }
+
+    .image-grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .image-card {
+      overflow: hidden;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.08);
+      cursor: pointer;
+      transition: transform .2s ease;
+    }
+
+    .image-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .image-card img,
+    .image-card video {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .image-card p {
+      margin: 0;
+      padding: 12px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .image-card-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      padding: 0 12px 12px;
+    }
+
+    .image-card-actions button {
+      flex: 1 1 auto;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      padding: 8px 10px;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: background .2s ease;
+    }
+
+    .image-card-actions button:hover {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .image-card-actions button.delete {
+      color: #ff8b8b;
+      border-color: rgba(255,140,140,0.22);
+    }
+
+    .album-modal textarea,
+    .album-modal input {
+      width: 100%;
+      font: inherit;
+      padding: 12px 14px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.05);
+      color: var(--text);
+      margin-top: 8px;
+    }
+
+    .album-modal textarea {
+      min-height: 140px;
+      resize: vertical;
+    }
+
+    .album-modal .status-tip {
+      margin-top: 12px;
+      color: #9db5d8;
+    }
+
+    @media (max-width: 900px) {
+      .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 640px) {
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .site-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .site-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-decoration: none;
+      transition: background .2s ease, transform .2s ease;
+    }
+
+    .site-item:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .site-item span:last-child {
+      color: #9db5d8;
+      font-size: 0.95rem;
+    }
+
     .timeline {
       list-style: none;
       padding: 0;
@@ -329,6 +768,17 @@
     }
 
     .post-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(91, 192, 255, 0.35);
+    }
+
+    .post-link {
+      display: block;
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .post-link:hover .post-card {
       transform: translateY(-2px);
       border-color: rgba(91, 192, 255, 0.35);
     }
@@ -475,25 +925,27 @@
 
   <div class="wrap">
     <header class="topbar">
-      <div class="brand">Lin's Blog</div>
+      <div class="brand">Power</div>
       <nav class="nav">
         <a href="#posts">文章</a>
         <a href="#topics">专题</a>
         <a href="#about">关于</a>
         <a href="#contact">联系</a>
       </nav>
+        
     </header>
 
     <section class="hero">
       <div class="hero-card">
-        <span class="eyebrow">Personal Blog</span>
-        <h1>分享灵感，记录成长，也欢迎来到我的小世界。</h1>
-        <p class="lead">
-          这里是一个更完整的个人博客首页示例，融合了玻璃拟态、专题展示和更有层次的内容排版，适合做个人作品集、随笔站或技术博客。
+        <span class="eyebrow">Power Blog</span>
+        <h1 id="heroTitle">欢迎来到 Power 的个人博客，写下生活与思考。</h1>
+        <p class="lead" id="heroLead">
+          这里是 Power 的创作空间，记录真实日常、技术灵感与成长心得，适合阅读、沉淀和分享。
         </p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#posts">阅读文章</a>
           <a class="btn btn-secondary" href="#about">了解我</a>
+          <button id="editButton" class="btn edit-trigger" type="button">编辑内容</button>
         </div>
       </div>
 
@@ -538,53 +990,982 @@
           <li><strong>整理内容</strong><span>主页结构优化，视觉更统一</span></li>
         </ul>
       </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <span>网站收藏</span>
+          <a href="#" style="color: var(--accent);">更多</a>
+        </div>
+        <div style="margin-bottom: 14px; display: grid; gap: 10px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+            <input id="newSiteTitle" placeholder="网站名称" style="flex:1 1 180px; padding:8px;" />
+            <input id="newSiteUrl" placeholder="链接地址" style="flex:1 1 260px; padding:8px;" />
+            <button id="addSiteBtn" class="btn btn-primary" type="button">添加网站</button>
+          </div>
+          <div style="font-size:0.9rem;color:var(--muted);">输入网站名称和 URL，即可将网站保存到收藏列表；点击右侧删除按钮可移除站点。</div>
+        </div>
+        <div class="site-list" id="siteList"></div>
+      </div>
     </section>
 
     <section id="posts">
       <div class="section-title">
         <span>最新文章</span>
-        <a href="#" style="color: var(--accent);">查看更多</a>
+        <a href="#articleIndex" style="color: var(--accent);">查看全部目录</a>
       </div>
-      <div class="grid">
-        <article class="post-card">
-          <h3>如何把平凡日子过成有仪式感的生活</h3>
-          <p>记录一个小而稳定的习惯，如何逐渐改变生活的节奏，让每一天都更有温度。</p>
-          <div class="meta">2026-07-02 · 生活随笔</div>
-        </article>
-        <article class="post-card">
-          <h3>从零开始搭建一个属于自己的网页</h3>
-          <p>用简洁的结构和细腻的色彩，让一个静态页面从普通变成有记忆点的作品。</p>
-          <div class="meta">2026-06-28 · 技术分享</div>
-        </article>
-        <article class="post-card">
-          <h3>写作的意义，不只是表达，更是整理自己</h3>
-          <p>当思想被写下来，很多混乱的情绪也会被一点点理清。</p>
-          <div class="meta">2026-06-20 · 个人感悟</div>
-        </article>
-        <article class="post-card">
-          <h3>一个适合长期坚持的学习方法</h3>
-          <p>不是追热点，而是建立一套稳定的节奏，让成长持续发生。</p>
-          <div class="meta">2026-06-12 · 学习方法</div>
-        </article>
+      <div id="postsList" class="grid">
+        <!-- 动态渲染：最多显示 3 篇最新文章卡片 -->
       </div>
     </section>
+
+    <section id="articleIndex">
+      <div class="section-title">
+        <span>文章目录</span>
+      </div>
+      <div style="margin:10px 0;padding:12px;border-radius:10px;background:rgba(0,0,0,0.04);">
+        <strong>新建文章</strong>
+        <div style="margin-top:8px">
+          <input id="newId" placeholder="文章 id（如 post5）" style="padding:6px;margin-right:6px">
+          <input id="newTitle" placeholder="文章标题" style="padding:6px;margin-right:6px;width:320px">
+        </div>
+        <div style="margin-top:8px">
+          <input id="newDate" placeholder="发布日期（如 2026-07-03）" style="padding:6px;margin-right:6px">
+          <input id="newTag" placeholder="标签（如 技术）" style="padding:6px;margin-right:6px">
+        </div>
+        <div style="margin-top:8px">
+          <textarea id="newDesc" placeholder="文章摘要/导语（用于首页展示）" style="width:100%;height:60px;padding:8px"></textarea>
+        </div>
+        <div style="margin-top:8px">
+          <button id="addArticleBtn" class="btn">添加到站点目录</button>
+          <button id="genHtmlBtn" class="btn" style="margin-left:8px">生成 HTML 模板（复制并保存为 .html）</button>
+        </div>
+        <div id="genOutputWrap" style="margin-top:8px;display:none">
+          <div style="margin-bottom:6px;color:var(--muted)">生成的 HTML（请复制到新文件并保存至站点根目录）：</div>
+          <textarea id="genOutput" style="width:100%;height:260px;padding:8px;font-family:monospace;white-space:pre-wrap"></textarea>
+        </div>
+      </div>
+
+      <div id="indexList" class="panel">
+        <!-- 动态渲染的文章索引 -->
+      </div>
+    </section>
+
+    <section id="gallery">
+      <div class="section-title">
+        <span>相册展示</span>
+        <a href="#" style="color: var(--accent);">更多</a>
+      </div>
+      <div class="gallery-grid">
+        <div class="gallery-card">
+          <img src="https://via.placeholder.com/800x520?text=Photo+1" alt="晨光街道">
+          <p>晨光中的城市街道</p>
+        </div>
+        <div class="gallery-card">
+          <img src="https://via.placeholder.com/800x520?text=Photo+2" alt="书桌笔记">
+          <p>书桌上的笔记与日常</p>
+        </div>
+        <div class="gallery-card">
+          <video controls>
+            <source src="https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4" type="video/mp4">
+            您的浏览器不支持视频播放。
+          </video>
+          <p>Power 生活记录视频</p>
+        </div>
+        <div class="gallery-card">
+          <img src="https://via.placeholder.com/800x520?text=Photo+3" alt="自然与写作">
+          <p>自然中的写作与片刻静谧</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="albums">
+      <div class="section-title">
+        <span>我的相册</span>
+        <button id="createAlbumBtn" class="btn btn-secondary" type="button">创建相册</button>
+      </div>
+      <p class="about-text" style="margin-top: 0; margin-bottom: 16px;">最多 10 个相册，每个相册最多 100 条图片/视频链接。点击相册卡片可查看详情。</p>
+      <div class="album-grid" id="albumGrid"></div>
+    </section>
+
+    <div id="albumDetail" class="album-detail">
+      <div class="album-detail-inner">
+        <div class="detail-header">
+          <div>
+            <strong id="detailAlbumTitle"></strong>
+            <p class="album-meta" id="detailAlbumMeta"></p>
+          </div>
+          <div class="detail-actions">
+            <button id="detailEditBtn" class="album-btn" type="button">编辑相册</button>
+            <button id="detailDeleteBtn" class="album-btn delete" type="button">删除相册</button>
+            <button id="closeAlbumDetail" class="btn btn-secondary" type="button">返回相册</button>
+          </div>
+        </div>
+        <div class="image-grid" id="imageGrid"></div>
+      </div>
+    </div>
+
+    <div id="albumModal" class="modal-backdrop" style="display:none;">
+      <div class="modal album-modal">
+        <h2 id="albumModalTitle">创建新相册</h2>
+        <label for="albumTitleInput">相册名称</label>
+        <input id="albumTitleInput" type="text" placeholder="例如：旅行记忆" />
+        <label for="albumImagesInput">图片或视频链接列表（回车分隔，最多 100 条）</label>
+        <textarea id="albumImagesInput" placeholder="https://...\nhttps://..." rows="6"></textarea>
+        <div class="modal-actions">
+          <button id="saveAlbumBtn" class="modal-save" type="button">保存相册</button>
+          <button id="cancelAlbumBtn" class="modal-close" type="button">取消</button>
+        </div>
+        <p class="status-tip">封面默认使用第一张图片或视频封面，若为空则显示占位图。</p>
+      </div>
+    </div>
 
     <section id="about" class="about-card">
       <div class="avatar">LX</div>
       <div>
         <div class="section-title" style="margin-top: 0;">关于我</div>
-        <p class="about-text">
-          我是林见夏，一个热爱设计、写作和细腻生活的人。喜欢把想法变成可见的体验，也愿意用文字记录一点点成长。
-          这次升级后的主页，保留了温柔的氛围，同时加入了更清晰的内容组织与视觉层次。
+        <p class="about-text" id="aboutText">
+          我是 Power，一个热爱写作、思考与记录的人。这里是我的个人博客，用文字和设计表达日常、技术与人生感悟。
+          我希望这片空间既有温度，也能给你带来一点启发。
         </p>
         <p class="about-text" id="contact">
-          如果你也喜欢创作、阅读、或者简单生活的美感，可以通过邮箱与我交流：hello@linsblog.com
+          如果你也喜欢创作、阅读、或者简单生活的美感，可以通过邮箱与我交流：hello@powerblog.com
         </p>
       </div>
     </section>
 
-    <div class="footer">© 2026 Lin's Blog · Crafted with care</div>
-  </div>
-</body>
+    <div class="footer">© 2026 Power · Crafted with care</div>
 
+    <div id="editorBackdrop" class="modal-backdrop">
+      <div class="modal" id="editorModal">
+        <h2>页面内容编辑</h2>
+        <div id="passwordSection">
+          <label for="editPassword">请输入编辑密码</label>
+          <input id="editPassword" type="password" placeholder="输入密码后即可编辑">
+          <div class="modal-actions">
+            <button id="passwordSubmit" class="modal-save" type="button">验证密码</button>
+            <button id="closeModal" class="modal-close" type="button">关闭</button>
+          </div>
+        </div>
+        <div id="editSection" style="display:none;">
+          <label for="inputHeroTitle">首页标题</label>
+          <textarea id="inputHeroTitle"></textarea>
+          <label for="inputHeroLead">首页描述</label>
+          <textarea id="inputHeroLead"></textarea>
+          <label for="inputAboutText">关于我</label>
+          <textarea id="inputAboutText"></textarea>
+          <label for="inputPost1Title">第一篇文章标题</label>
+          <textarea id="inputPost1Title"></textarea>
+          <label for="inputPost1Desc">第一篇文章内容</label>
+          <textarea id="inputPost1Desc"></textarea>
+          <div class="modal-actions">
+            <button id="saveChanges" class="modal-save" type="button">保存修改</button>
+            <button id="closeModal" class="modal-close" type="button">取消</button>
+          </div>
+        </div>
+        <div class="status-tip" id="authStatus">当前未验证，输入密码后方可编辑；验证有效期为 30 分钟。</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const PASSWORD = "Power";
+      const AUTH_KEY = "myweb_edit_auth";
+      const DATA_KEY = "myweb_edit_data";
+      const AUTH_DURATION = 30 * 60 * 1000;
+      const modal = document.getElementById("editorBackdrop");
+      const passwordField = document.getElementById("editPassword");
+      const authStatus = document.getElementById("authStatus");
+      const passwordSection = document.getElementById("passwordSection");
+      const editSection = document.getElementById("editSection");
+      const heroTitle = document.getElementById("heroTitle");
+      const heroLead = document.getElementById("heroLead");
+      const aboutText = document.getElementById("aboutText");
+      const textareaTitle = document.getElementById("inputHeroTitle");
+      const textareaLead = document.getElementById("inputHeroLead");
+      const textareaAbout = document.getElementById("inputAboutText");
+      const textareaPost1Title = document.getElementById("inputPost1Title");
+      const textareaPost1Desc = document.getElementById("inputPost1Desc");
+      const editButton = document.getElementById("editButton");
+      const passwordSubmit = document.getElementById("passwordSubmit");
+      const saveChanges = document.getElementById("saveChanges");
+      const closeButtons = document.querySelectorAll(".modal-close");
+      const weatherDate = document.getElementById("weatherDate");
+      const weatherTemp = document.getElementById("weatherTemp");
+      const weatherDesc = document.getElementById("weatherDesc");
+      const weatherTime = document.getElementById("weatherTime");
+      const weatherCity = document.getElementById("weatherCity");
+      const weatherLocation = document.getElementById("weatherLocation");
+      const weatherCityInput = document.getElementById("weatherCityInput");
+      const weatherSearchBtn = document.getElementById("weatherSearchBtn");
+
+      // 默认文章数据（用于首页渲染与索引）
+      const defaultArticles = [
+        { id: 'post1', title: '如何把平凡日子过成有仪式感的活', desc: '记录一个小而稳定的习惯，如何逐渐改变生活的节奏，让每一天都更有温度。', link: 'post1.html', date: '2026-07-02', tag: '生活随笔' },
+        { id: 'post2', title: '从零开始搭建一个属于自己的网页', desc: '用简洁的结构和细腻的色彩，让一个静态页面从普通变成有记忆点的作品。', link: 'post2.html', date: '2026-06-28', tag: '技术分享' },
+        { id: 'post3', title: '写作的意义，不只是表达，更是整理自己', desc: '当思想被写下来，很多混乱的情绪也会被一点点理清。', link: 'post3.html', date: '2026-06-20', tag: '个人感悟' },
+        { id: 'post4', title: '一个适合长期坚持的学习方法', desc: '不是追热点，而是建立一套稳定的节奏，让成长持续发生。', link: 'post4.html', date: '2026-06-12', tag: '学习方法' }
+      ];
+
+      const DEFAULT_CITY = "武汉";
+      const DEFAULT_COORDS = { latitude: 30.5928, longitude: 114.3055 };
+      const SITE_LIST_KEY = "power_sites";
+      const DEFAULT_SITES = [
+        { title: "Power 官方", url: "https://example.com", note: "打开网站" },
+        { title: "GitHub", url: "https://github.com", note: "跳转访问" },
+        { title: "Mozilla", url: "https://www.mozilla.org/zh-CN/", note: "安全浏览" },
+      ];
+
+      function getSites() {
+        const raw = localStorage.getItem(SITE_LIST_KEY);
+        if (!raw) return DEFAULT_SITES.slice();
+        try {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed) && parsed.length) return parsed;
+        } catch (err) {
+          // ignore parse errors and fallback to defaults
+        }
+        return DEFAULT_SITES.slice();
+      }
+
+      function saveSites(sites) {
+        localStorage.setItem(SITE_LIST_KEY, JSON.stringify(sites));
+      }
+
+      function renderSites() {
+        const sites = getSites();
+        const siteList = document.getElementById('siteList');
+        siteList.innerHTML = '';
+        if (!sites.length) {
+          siteList.innerHTML = '<div class="about-text">当前网站收藏为空，添加自己喜欢的网址以便快速访问。</div>';
+          return;
+        }
+        sites.forEach((site, index) => {
+          const item = document.createElement('div');
+          item.className = 'site-item';
+          item.innerHTML = `
+            <div style="display:flex;flex:1;align-items:center;gap:10px;min-width:0;">
+              <a href="${escapeHtml(site.url)}" target="_blank" rel="noopener noreferrer" style="flex:1;min-width:0;display:inline-flex;align-items:center;justify-content:space-between;gap:12px;">
+                <span style="white-space: nowrap;overflow:hidden;text-overflow:ellipsis;display:inline-block;max-width:calc(100% - 100px);">${escapeHtml(site.title)}</span>
+                <span style="color:var(--muted);white-space:nowrap;">${escapeHtml(site.note || '访问')}</span>
+              </a>
+            </div>
+            <button class="btn btn-secondary site-remove" type="button" data-index="${index}" style="margin-left: 12px;">删除</button>
+          `;
+          siteList.appendChild(item);
+        });
+        siteList.querySelectorAll('.site-remove').forEach((button) => {
+          button.addEventListener('click', function () {
+            const idx = Number(this.dataset.index);
+            const sites = getSites();
+            if (!sites[idx]) return;
+            if (!confirm(`确定要删除收藏网站：${sites[idx].title}？`)) return;
+            sites.splice(idx, 1);
+            saveSites(sites);
+            renderSites();
+          });
+        });
+      }
+
+      function addNewSite() {
+        const titleInput = document.getElementById('newSiteTitle');
+        const urlInput = document.getElementById('newSiteUrl');
+        const title = (titleInput.value || '').trim();
+        let url = (urlInput.value || '').trim();
+        if (!title) {
+          alert('请输入网站名称。');
+          return;
+        }
+        if (!url) {
+          alert('请输入网站地址。');
+          return;
+        }
+        if (!/^https?:\/\//i.test(url)) {
+          url = 'https://' + url;
+        }
+        try {
+          new URL(url);
+        } catch (err) {
+          alert('请输入有效的网站 URL。');
+          return;
+        }
+        const sites = getSites();
+        if (sites.find((item) => item.url === url)) {
+          alert('该网站已存在于收藏中。');
+          return;
+        }
+        sites.push({ title, url, note: '用户收藏' });
+        saveSites(sites);
+        titleInput.value = '';
+        urlInput.value = '';
+        renderSites();
+      }
+
+      let currentCoords = { ...DEFAULT_COORDS };
+      let currentCity = DEFAULT_CITY;
+
+      function now() {
+        return new Date().getTime();
+      }
+
+      function getAuth() {
+        const raw = localStorage.getItem(AUTH_KEY);
+        if (!raw) return null;
+        try {
+          return JSON.parse(raw);
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function setAuth() {
+        localStorage.setItem(AUTH_KEY, JSON.stringify({ expires: now() + AUTH_DURATION }));
+      }
+
+      function clearAuth() {
+        localStorage.removeItem(AUTH_KEY);
+      }
+
+      function isAuthenticated() {
+        const auth = getAuth();
+        return auth && auth.expires > now();
+      }
+
+      function loadData() {
+        const raw = localStorage.getItem(DATA_KEY);
+        if (!raw) return null;
+        try {
+          return JSON.parse(raw);
+        } catch (err) {
+          return null;
+        }
+      }
+
+      function saveData(data) {
+        localStorage.setItem(DATA_KEY, JSON.stringify(data));
+      }
+
+      function renderData() {
+        const stored = loadData() || {};
+        if (stored.heroTitle) heroTitle.textContent = stored.heroTitle;
+        if (stored.heroLead) heroLead.textContent = stored.heroLead;
+        if (stored.aboutText) aboutText.textContent = stored.aboutText;
+
+        // 构建文章列表：优先使用 stored.articles（如果存在），否则使用按 id 的 stored.<id>Title/<id>Desc 覆盖 defaultArticles
+        const articles = defaultArticles.map((a) => {
+          // stored may include articles array
+          let override = {};
+          if (Array.isArray(stored.articles)) {
+            override = stored.articles.find((x) => x.id === a.id) || {};
+          }
+          const t = stored[`${a.id}Title`] || override.title || a.title;
+          const d = stored[`${a.id}Desc`] || override.desc || a.desc;
+          return Object.assign({}, a, { title: t, desc: d });
+        });
+
+        // render up to 3 latest
+        const postsList = document.getElementById('postsList');
+        postsList.innerHTML = '';
+        articles.slice(0, 3).forEach((art) => {
+          const a = document.createElement('a');
+          a.className = 'post-link';
+          a.href = art.link;
+          a.innerHTML = `<article class="post-card"><h3>${escapeHtml(art.title)}</h3><p>${escapeHtml(art.desc)}</p><div class="meta">Power Blog · ${escapeHtml(art.date)} · ${escapeHtml(art.tag)}</div></article>`;
+          postsList.appendChild(a);
+        });
+
+        // render index list (all articles)
+        const indexList = document.getElementById('indexList');
+        indexList.innerHTML = '';
+        const ul = document.createElement('ul');
+        ul.style.listStyle = 'none'; ul.style.padding = '0';
+        articles.forEach((art) => {
+          const li = document.createElement('li');
+          li.style.padding = '8px 0';
+          li.innerHTML = `<a href="${art.link}" style="color:var(--accent);text-decoration:none">${escapeHtml(art.title)}</a> <span style="color:var(--muted);margin-left:8px">· ${escapeHtml(art.date)}</span>`;
+          ul.appendChild(li);
+        });
+        indexList.appendChild(ul);
+      }
+
+      function escapeHtml(str){
+        if(!str) return '';
+        return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+      }
+
+      // 新建文章的前端处理（只在本地站点进行索引与 localStorage 写入）
+      function ensureStoredArticles(obj){
+        if(!obj) obj = {};
+        if(!Array.isArray(obj.articles)) obj.articles = [];
+        return obj;
+      }
+
+      function addNewArticleToSite() {
+        const id = (document.getElementById('newId').value || '').trim();
+        const title = (document.getElementById('newTitle').value || '').trim();
+        const desc = (document.getElementById('newDesc').value || '').trim();
+        const date = (document.getElementById('newDate').value || '').trim();
+        const tag = (document.getElementById('newTag').value || '').trim();
+        if(!id || !/^[a-zA-Z0-9_-]+$/.test(id)) { alert('请输入有效的 id（字母数字_-）'); return; }
+        if(!title) { alert('请输入标题'); return; }
+        const stored = ensureStoredArticles(loadData() || {});
+        // check duplicates
+        if(stored.articles.find(a=>a.id===id) || defaultArticles.find(a=>a.id===id)){
+          if(!confirm('已存在相同 id 的文章，是否覆盖索引？')) return;
+          stored.articles = stored.articles.filter(a=>a.id!==id);
+        }
+        stored.articles.unshift({ id, title, desc, link: `${id}.html`, date: date || new Date().toISOString().slice(0,10), tag: tag || '' });
+        saveData(stored);
+        renderData();
+        alert('文章已添加到站点目录（仅索引与 localStorage）。如需生成可编辑页面，请使用“生成 HTML 模板”。');
+      }
+
+      /* function generateArticleHtml(id, title, desc) {
+        const safeTitle = escapeHtml(title || '未命名文章');
+        const safeDesc = escapeHtml(desc || '');
+        const html = `<!doctype html>\n<html lang="zh-CN">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <title>${safeTitle} | Power Blog</title>\n  <style>body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:32px auto;color:#222} .btn{display:inline-block;padding:8px 12px;border-radius:4px;background:#2b6cb0;color:#fff;border:none;cursor:pointer} textarea{width:100%;height:160px}</style>\n</head>\n<body>\n  <h1 id=\"postTitle\">${safeTitle}</h1>\n  <p id=\"postMeta\">Power Blog</p>\n  <article id=\"postBody\">\n    <p>${safeDesc}</p>\n  </article>\n  <hr>\n  <div id=\"articleEditor\">\n    <div id=\"passwordSection\">\n      <label>输入编辑密码：<input id=\"editPassword\" type=\"password\"></label>\n      <button id=\"passwordSubmit\" class=\"btn\">验证并编辑</button>\n      <div id=\"authStatus\" class=\"muted\">需要密码才能编辑，默认密码为 Power。</div>\n    </div>\n    <div id=\"editSection\" style=\"display:none;margin-top:12px\">\n      <div><label>文章标题</label><input id=\"inputTitle\" style=\"width:100%;padding:8px\"></div>\n      <div style=\"margin-top:8px\"><label>文章内容</label><textarea id=\"inputContent\"></textarea></div>\n      <div style=\"margin-top:8px\"><button id=\"saveBtn\" class=\"btn\">保存修改</button></div>\n    </div>\n  </div>\n  <script>/* This page uses the site shared localStorage key myweb_edit_data to sync edits with the homepage. */ (function(){const PASSWORD='Power';const AUTH_KEY='myweb_edit_auth';const DATA_KEY='myweb_edit_data';const AUTH_DURATION=30*60*1000;function now(){return Date.now()}function getAuth(){const r=localStorage.getItem(AUTH_KEY);if(!r) return null;try{return JSON.parse(r);}catch(e){return null}}function setAuth(){localStorage.setItem(AUTH_KEY,JSON.stringify({expires:now()+AUTH_DURATION}))}function isAuthenticated(){const a=getAuth();return a&&a.expires>now()}function loadData(){const raw=localStorage.getItem(DATA_KEY);if(!raw) return null;try{return JSON.parse(raw)}catch(e){return null}}function saveData(d){localStorage.setItem(DATA_KEY,JSON.stringify(d))}const passwordField=document.getElementById('editPassword');const passwordSubmit=document.getElementById('passwordSubmit');const authStatus=document.getElementById('authStatus');const editSection=document.getElementById('editSection');const inputTitle=document.getElementById('inputTitle');const inputContent=document.getElementById('inputContent');const saveBtn=document.getElementById('saveBtn');const postTitle=document.getElementById('postTitle');const postBody=document.getElementById('postBody');passwordSubmit.addEventListener('click',function(){if(passwordField.value===PASSWORD){setAuth();editSection.style.display='block';authStatus.textContent='已验证，可编辑';inputTitle.value=postTitle.textContent.trim();inputContent.value=Array.from(postBody.querySelectorAll('p')).map(p=>p.textContent).join('\n\n');passwordField.value=''}else{authStatus.textContent='密码错误'}});saveBtn.addEventListener('click',function(){if(!isAuthenticated()){authStatus.textContent='验证已过期';return}const newTitle=inputTitle.value.trim();const newDesc=inputContent.value.trim();const forbidden=/<script|<style|\{\{|\}\}|<\?|\?>/i;if(forbidden.test(newTitle)||forbidden.test(newDesc)){alert('检测到疑似代码内容，保存已阻止');return}if(!confirm('确认保存修改并同步到首页？')) return;const old=loadData()||{};const data=Object.assign({},old,{ [`${id}Title`]: newTitle, [`${id}Desc`]: newDesc });saveData(data);postTitle.textContent=newTitle;postBody.innerHTML=newDesc.split(/\n\n+/).map(s=>`<p>${s.replace(/</g,'&lt;')}</p>`).join('');alert('已保存并同步到首页');});window.addEventListener('storage',function(e){if(e.key===DATA_KEY){try{const newData=e.newValue?JSON.parse(e.newValue):null;if(newData&&newData[`${id}Title`]) postTitle.textContent=newData[`${id}Title`];if(newData&&newData[`${id}Desc`]) postBody.innerHTML=newData[`${id}Desc`].split(/\n\n+/).map(s=>`<p>${s.replace(/</g,'&lt;')}</p>`).join('');}catch(err){}}});})();</script>\n</body>\n</html>`;
+        return html;
+      }
+      */
+
+      // Provide a safe generator to replace the earlier template-literal-based one
+      // This assignment overrides any previous function named generateArticleHtml
+      window.generateArticleHtml = function(id, title, desc) {
+        const safeTitle = escapeHtml(title || '未命名文章');
+        const safeDesc = escapeHtml(desc || '');
+        var html = '<!doctype html>\n<html lang="zh-CN">\n<head>\n  <meta charset="utf-8">\n  <meta name="viewport" content="width=device-width,initial-scale=1">\n  <title>' + safeTitle + ' | Power Blog</title>\n  <style>body{font-family:Arial,Helvetica,sans-serif;max-width:900px;margin:32px auto;color:#222} .btn{display:inline-block;padding:8px 12px;border-radius:4px;background:#2b6cb0;color:#fff;border:none;cursor:pointer} textarea{width:100%;height:160px}</style>\n</head>\n<body>\n  <h1>' + safeTitle + '</h1>\n  <p>Power Blog</p>\n  <article>\n    <p>' + safeDesc + '</p>\n  </article>\n  <hr>\n  <div>编辑脚本已省略，请复制并复用站点已有的编辑页脚本。</div>\n</body>\n</html>';
+        return html;
+      };
+      document.getElementById('addArticleBtn').addEventListener('click', addNewArticleToSite);
+      document.getElementById('genHtmlBtn').addEventListener('click', function(){
+        const id = (document.getElementById('newId').value || '').trim();
+        const title = (document.getElementById('newTitle').value || '').trim();
+        const desc = (document.getElementById('newDesc').value || '').trim();
+        if(!id) { alert('请输入 id'); return; }
+        const html = generateArticleHtml(id, title, desc);
+        document.getElementById('genOutputWrap').style.display = 'block';
+        document.getElementById('genOutput').value = html;
+      });
+
+      function syncLinkedContent(oldData, newData) {
+        // 如果文章标题改变，尝试在页面中替换相关提及（例如时间轴、摘要处）
+        if (!oldData || !newData) return;
+        try {
+          if (oldData.post1Title && newData.post1Title && oldData.post1Title !== newData.post1Title) {
+            // 更新时间轴中提及该文章标题的项
+            const timeline = document.querySelectorAll('.timeline li span');
+            timeline.forEach((el) => {
+              if (el.textContent.includes(oldData.post1Title)) {
+                el.textContent = el.textContent.replace(oldData.post1Title, newData.post1Title);
+              }
+            });
+
+            // 更新文章卡片中若存在旧标题的其他位置（增加保险）
+            const postCards = document.querySelectorAll('.post-card h3');
+            postCards.forEach((h) => {
+              if (h.textContent.includes(oldData.post1Title)) {
+                h.textContent = h.textContent.replace(oldData.post1Title, newData.post1Title);
+              }
+            });
+          }
+
+          if (oldData.post1Desc && newData.post1Desc && oldData.post1Desc !== newData.post1Desc) {
+            // 若描述被引用于其它地方，可在此扩展替换逻辑
+            const descEls = document.querySelectorAll('.timeline li span, .post-card p');
+            descEls.forEach((el) => {
+              if (el.textContent.includes(oldData.post1Desc)) {
+                el.textContent = el.textContent.replace(oldData.post1Desc, newData.post1Desc);
+              }
+            });
+          }
+        } catch (err) {
+          console.warn('syncLinkedContent error', err);
+        }
+      }
+
+      function formatWeekday(date) {
+        return ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"][date.getDay()];
+      }
+
+      function weatherCodeToText(code) {
+        const map = {
+          0: "晴朗",
+          1: "主要晴朗",
+          2: "部分多云",
+          3: "多云",
+          45: "雾",
+          48: "细小冰晶雾",
+          51: "毛毛雨",
+          53: "中等毛毛雨",
+          55: "浓毛毛雨",
+          56: "冻毛毛雨",
+          57: "浓冻毛毛雨",
+          61: "小雨",
+          63: "中雨",
+          65: "大雨",
+          66: "冻雨",
+          67: "大冻雨",
+          71: "小雪",
+          73: "中雪",
+          75: "大雪",
+          77: "雪珠",
+          80: "阵雨",
+          81: "强阵雨",
+          82: "暴雨",
+          85: "小雪阵",
+          86: "暴雪阵",
+          95: "雷阵雨",
+          96: "雷暴小冰雹",
+          99: "雷暴大冰雹",
+        };
+        return map[code] || "未知天气";
+      }
+
+      function updateDateTime() {
+        const date = new Date();
+        weatherDate.textContent = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")} ${formatWeekday(date)}`;
+        weatherTime.textContent = `当前时间：${String(date.getHours()).padStart(2, "0")}:${String(date.getMinutes()).padStart(2, "0")}`;
+      }
+
+      async function fetchGeoCoordinates(city) {
+        try {
+          const response = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=zh&format=json`);
+          const data = await response.json();
+          if (data && data.results && data.results.length > 0) {
+            return {
+              latitude: data.results[0].latitude,
+              longitude: data.results[0].longitude,
+              name: data.results[0].name,
+              country: data.results[0].country,
+            };
+          }
+        } catch (err) {
+          console.warn("Geo lookup failed", err);
+        }
+        return null;
+      }
+
+      function buildWeatherUrl(coords) {
+        return `https://api.open-meteo.com/v1/forecast?latitude=${coords.latitude}&longitude=${coords.longitude}&current_weather=true&timezone=Asia%2FShanghai`;
+      }
+
+      async function fetchWeatherInfo(city) {
+        if (city) {
+          const geo = await fetchGeoCoordinates(city);
+          if (geo) {
+            currentCoords = { latitude: geo.latitude, longitude: geo.longitude };
+            currentCity = `${geo.name}${geo.country ? ", " + geo.country : ""}`;
+            weatherCity.textContent = currentCity;
+            weatherLocation.textContent = currentCity;
+          } else {
+            weatherDesc.textContent = "城市未找到，显示武汉天气";
+            currentCoords = { ...DEFAULT_COORDS };
+            currentCity = DEFAULT_CITY;
+            weatherCity.textContent = currentCity;
+            weatherLocation.textContent = currentCity;
+          }
+        }
+
+        try {
+          const response = await fetch(buildWeatherUrl(currentCoords));
+          const data = await response.json();
+          const current = data.current_weather;
+          if (current) {
+            weatherTemp.textContent = `${Math.round(current.temperature)}°C`;
+            weatherDesc.textContent = `${weatherCodeToText(current.weathercode)} · 风速 ${Math.round(current.windspeed)} km/h`;
+          } else {
+            weatherDesc.textContent = "天气数据暂不可用";
+            weatherTemp.textContent = "--°C";
+          }
+        } catch (error) {
+          weatherDesc.textContent = "天气服务不可用";
+          weatherTemp.textContent = "--°C";
+        }
+      }
+
+      function updateWeatherInfo() {
+        updateDateTime();
+      }
+
+      const ALBUMS_KEY = "power_albums";
+      const MAX_ALBUMS = 10;
+      const MAX_MEDIA = 100;
+      const albumGrid = document.getElementById("albumGrid");
+      const albumDetail = document.getElementById("albumDetail");
+      const detailAlbumTitle = document.getElementById("detailAlbumTitle");
+      const detailAlbumMeta = document.getElementById("detailAlbumMeta");
+      const imageGrid = document.getElementById("imageGrid");
+      const createAlbumBtn = document.getElementById("createAlbumBtn");
+      const albumModal = document.getElementById("albumModal");
+      const albumModalTitle = document.getElementById("albumModalTitle");
+      const albumTitleInput = document.getElementById("albumTitleInput");
+      const albumImagesInput = document.getElementById("albumImagesInput");
+      const saveAlbumBtn = document.getElementById("saveAlbumBtn");
+      const cancelAlbumBtn = document.getElementById("cancelAlbumBtn");
+      const closeAlbumDetail = document.getElementById("closeAlbumDetail");
+      const detailEditBtn = document.getElementById("detailEditBtn");
+      const detailDeleteBtn = document.getElementById("detailDeleteBtn");
+      let editingAlbumIndex = null;
+      let currentDetailIndex = null;
+      let currentSortOrder = "default";
+
+      function getAlbums() {
+        const raw = localStorage.getItem(ALBUMS_KEY);
+        if (!raw) return [];
+        try {
+          return JSON.parse(raw);
+        } catch (err) {
+          return [];
+        }
+      }
+
+      function saveAlbums(albums) {
+        localStorage.setItem(ALBUMS_KEY, JSON.stringify(albums));
+      }
+
+      function getPlaceholderImage(index) {
+        return `https://via.placeholder.com/900x600?text=Album+${index + 1}`;
+      }
+
+      function parseMediaList(value) {
+        return value
+          .split(/\r?\n|,+/)
+          .map((item) => item.trim())
+          .filter(Boolean)
+          .slice(0, MAX_MEDIA);
+      }
+
+      function chooseAlbumCover(album, index) {
+        if (album.media && album.media.length) {
+          return album.media[0];
+        }
+        return getPlaceholderImage(index);
+      }
+
+      function renderAlbums() {
+        const albums = getAlbums();
+        albumGrid.innerHTML = "";
+        if (albums.length === 0) {
+          albumGrid.innerHTML = '<div class="about-text">当前暂无相册。点击“创建相册”开始你的第一本相册。</div>';
+          return;
+        }
+        albums.forEach((album, index) => {
+          const cover = chooseAlbumCover(album, index);
+          const item = document.createElement("div");
+          item.className = "album-card";
+          item.innerHTML = `
+            <img class="album-cover" src="${cover}" alt="${album.title} 封面" />
+            <div class="album-info">
+              <h3 class="album-title">${album.title}</h3>
+              <p class="album-meta">${album.media.length} 条内容 · 支持图片/视频</p>
+              <div class="album-controls">
+                <button class="album-btn edit">编辑</button>
+                <button class="album-btn delete">删除</button>
+              </div>
+            </div>
+          `;
+          item.addEventListener("click", () => openAlbumDetail(index));
+          const editBtn = item.querySelector(".album-btn.edit");
+          const deleteBtn = item.querySelector(".album-btn.delete");
+          editBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            openAlbumModal(index);
+          });
+          deleteBtn.addEventListener("click", (event) => {
+            event.stopPropagation();
+            deleteAlbum(index);
+          });
+          albumGrid.appendChild(item);
+        });
+      }
+
+      function openAlbumDetail(index) {
+        const albums = getAlbums();
+        const album = albums[index];
+        if (!album) return;
+        currentDetailIndex = index;
+        detailAlbumTitle.textContent = album.title;
+        const photoCount = album.media.filter((url) => !isVideoUrl(url)).length;
+        const videoCount = album.media.filter((url) => isVideoUrl(url)).length;
+        detailAlbumMeta.textContent = `共 ${album.media.length} 项内容：${photoCount} 张图片，${videoCount} 个视频`;
+        imageGrid.innerHTML = "";
+        if (!album.media.length) {
+          imageGrid.innerHTML = '<div class="about-text">相册中暂无内容。</div>';
+        } else {
+          album.media.forEach((url, i) => {
+            const card = document.createElement("div");
+            card.className = "image-card";
+            const label = isVideoUrl(url) ? `视频 ${i + 1}` : `图片 ${i + 1}`;
+            if (isVideoUrl(url)) {
+              card.innerHTML = `<video src="${url}" controls muted preload="metadata"></video><p>${label}</p>`;
+            } else {
+              card.innerHTML = `<img src="${url}" alt="${album.title} ${label}" /><p>${label}</p>`;
+            }
+            const actionBar = document.createElement("div");
+            actionBar.className = "image-card-actions";
+            const removeBtn = document.createElement("button");
+            removeBtn.type = "button";
+            removeBtn.textContent = "删除内容";
+            removeBtn.className = "delete";
+            removeBtn.addEventListener("click", (event) => {
+              event.stopPropagation();
+              removeAlbumMedia(i);
+            });
+            actionBar.appendChild(removeBtn);
+            card.appendChild(actionBar);
+            imageGrid.appendChild(card);
+          });
+        }
+        albumDetail.classList.add("active");
+      }
+
+      function closeAlbumDetailPanel() {
+        albumDetail.classList.remove("active");
+      }
+
+      function openAlbumModal(editIndex = null) {
+        if (!isAuthenticated()) {
+          authStatus.textContent = "请先验证编辑密码后再创建或编辑相册。";
+          openModal();
+          return;
+        }
+        editingAlbumIndex = editIndex;
+        if (editingAlbumIndex !== null) {
+          const albums = getAlbums();
+          const album = albums[editingAlbumIndex];
+          albumModalTitle.textContent = "编辑相册";
+          albumTitleInput.value = album.title;
+          albumImagesInput.value = album.media.join("\n");
+        } else {
+          albumModalTitle.textContent = "创建新相册";
+          albumTitleInput.value = "";
+          albumImagesInput.value = "";
+        }
+        albumModal.style.display = "flex";
+      }
+
+      function closeAlbumModal() {
+        albumModal.style.display = "none";
+        editingAlbumIndex = null;
+      }
+
+      function handleSaveAlbum() {
+        const title = albumTitleInput.value.trim() || `新相册 ${new Date().getTime()}`;
+        const media = parseMediaList(albumImagesInput.value);
+        const albums = getAlbums();
+        if (editingAlbumIndex !== null) {
+          albums[editingAlbumIndex] = { title, media };
+        } else {
+          if (albums.length >= MAX_ALBUMS) {
+            alert(`最多只能创建 ${MAX_ALBUMS} 个相册。`);
+            return;
+          }
+          albums.push({ title, media });
+        }
+        saveAlbums(albums);
+        renderAlbums();
+        closeAlbumModal();
+      }
+
+      function deleteAlbum(index) {
+        const albums = getAlbums();
+        if (!albums[index]) return;
+        if (!confirm(`确定要删除相册《${albums[index].title}》吗？此操作不可恢复。`)) return;
+        albums.splice(index, 1);
+        saveAlbums(albums);
+        renderAlbums();
+        if (currentDetailIndex === index) {
+          closeAlbumDetailPanel();
+          currentDetailIndex = null;
+        } else if (currentDetailIndex !== null && index < currentDetailIndex) {
+          currentDetailIndex -= 1;
+        }
+      }
+
+      function removeAlbumMedia(itemIndex) {
+        const albums = getAlbums();
+        if (currentDetailIndex === null || !albums[currentDetailIndex]) return;
+        const album = albums[currentDetailIndex];
+        if (!confirm(`确定要删除这条内容吗？`)) return;
+        album.media.splice(itemIndex, 1);
+        saveAlbums(albums);
+        renderAlbums();
+        openAlbumDetail(currentDetailIndex);
+      }
+
+      function isVideoUrl(url) {
+        return /\.(mp4|webm|ogg)(\?|$)/i.test(url);
+      }
+
+      createAlbumBtn.addEventListener("click", () => openAlbumModal(null));
+      saveAlbumBtn.addEventListener("click", handleSaveAlbum);
+      cancelAlbumBtn.addEventListener("click", closeAlbumModal);
+      closeAlbumDetail.addEventListener("click", closeAlbumDetailPanel);
+      detailEditBtn.addEventListener("click", function () {
+        if (currentDetailIndex !== null) {
+          openAlbumModal(currentDetailIndex);
+        }
+      });
+      detailDeleteBtn.addEventListener("click", function () {
+        if (currentDetailIndex !== null) {
+          deleteAlbum(currentDetailIndex);
+        }
+      });
+      albumModal.addEventListener("click", function (event) {
+        if (event.target === albumModal) {
+          closeAlbumModal();
+        }
+      });
+
+      renderAlbums();
+
+      function openModal() {
+        modal.classList.add("active");
+        updateAuthStatus();
+      }
+
+      function closeModal() {
+        modal.classList.remove("active");
+        passwordSection.style.display = "block";
+        editSection.style.display = "none";
+        passwordField.value = "";
+      }
+
+      function updateAuthStatus() {
+        if (isAuthenticated()) {
+          const expires = getAuth().expires;
+          const remaining = Math.max(0, expires - now());
+          authStatus.textContent = `已验证，可编辑。${Math.ceil(remaining / 1000)} 秒后需重新验证。`;
+        } else {
+          authStatus.textContent = "当前未验证，输入密码后方可编辑；验证有效期为 30 分钟。";
+        }
+      }
+
+      function showEditForm() {
+        passwordSection.style.display = "none";
+        editSection.style.display = "block";
+        textareaTitle.value = heroTitle.textContent.trim();
+        textareaLead.value = heroLead.textContent.trim();
+        textareaAbout.value = aboutText.textContent.trim();
+        const stored = loadData() || {};
+        const def1 = defaultArticles.find(a => a.id === 'post1') || {};
+        textareaPost1Title.value = (stored.post1Title) || (stored.articles && (stored.articles.find(x=>x.id==='post1')||{}).title) || def1.title || '';
+        textareaPost1Desc.value = (stored.post1Desc) || (stored.articles && (stored.articles.find(x=>x.id==='post1')||{}).desc) || def1.desc || '';
+      }
+
+      function handlePasswordSubmit() {
+        if (passwordField.value === PASSWORD) {
+          setAuth();
+          showEditForm();
+          updateAuthStatus();
+          passwordField.value = "";
+        } else {
+          authStatus.textContent = "密码错误，请重试。";
+        }
+      }
+
+      function handleSaveChanges() {
+        if (!isAuthenticated()) {
+          authStatus.textContent = "验证已过期，请重新输入密码。";
+          passwordSection.style.display = "block";
+          editSection.style.display = "none";
+          return;
+        }
+        const data = {
+          heroTitle: textareaTitle.value.trim(),
+          heroLead: textareaLead.value.trim(),
+          aboutText: textareaAbout.value.trim(),
+          post1Title: textareaPost1Title.value.trim(),
+          post1Desc: textareaPost1Desc.value.trim(),
+        };
+        const old = loadData() || {};
+        const labels = {
+          heroTitle: "首页标题",
+          heroLead: "首页描述",
+          aboutText: "关于我",
+          post1Title: "第一篇文章标题",
+          post1Desc: "第一篇文章内容",
+        };
+        const changed = [];
+        for (const key in data) {
+          const a = (old[key] || "").trim();
+          const b = (data[key] || "").trim();
+          if (a !== b) changed.push(labels[key]);
+        }
+        let msg = "确认保存以下修改吗？\n";
+        if (changed.length) {
+          msg += changed.map((c) => `- ${c}`).join("\n");
+        } else {
+          msg += "（未检测到具体修改）";
+        }
+        msg += "\n\n点击 确定 保存，取消 将返回编辑。";
+        if (!confirm(msg)) {
+          authStatus.textContent = "已取消保存，编辑仍可继续。";
+          return;
+        }
+        saveData(data);
+        renderData();
+        syncLinkedContent(old, data);
+        authStatus.textContent = "修改已保存，30 分钟后需重新验证。";
+      }
+
+      editButton.addEventListener("click", function () {
+        if (isAuthenticated()) {
+          showEditForm();
+          updateAuthStatus();
+        } else {
+          passwordSection.style.display = "block";
+          editSection.style.display = "none";
+          updateAuthStatus();
+        }
+        openModal();
+      });
+
+      
+
+      passwordSubmit.addEventListener("click", handlePasswordSubmit);
+      saveChanges.addEventListener("click", handleSaveChanges);
+      closeButtons.forEach((button) => button.addEventListener("click", closeModal));
+      modal.addEventListener("click", function (event) {
+        if (event.target === modal) {
+          closeModal();
+        }
+      });
+      weatherSearchBtn.addEventListener("click", function () {
+        const city = weatherCityInput.value.trim();
+        if (city) {
+          weatherDesc.textContent = "查询中……";
+          fetchWeatherInfo(city);
+        }
+      });
+      weatherCityInput.addEventListener("keyup", function (event) {
+        if (event.key === "Enter") {
+          weatherSearchBtn.click();
+        }
+      });
+      document.getElementById('addSiteBtn').addEventListener('click', addNewSite);
+
+      renderData();
+      renderSites();
+      updateWeatherInfo();
+      fetchWeatherInfo();
+      setInterval(updateWeatherInfo, 60000);
+      setInterval(fetchWeatherInfo, 600000);
+      setInterval(updateAuthStatus, 1000);
+      // Listen for storage changes from other pages (e.g., article edit pages)
+      window.addEventListener('storage', function (e) {
+        if (e.key === DATA_KEY) {
+          try {
+            const oldData = e.oldValue ? JSON.parse(e.oldValue) : null;
+            const newData = e.newValue ? JSON.parse(e.newValue) : null;
+            renderData();
+            syncLinkedContent(oldData, newData);
+          } catch (err) {
+            // ignore parse errors
+          }
+        }
+      });
+    })();
+  </script>
+</body>
 </html>
