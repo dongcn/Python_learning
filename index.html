@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>林见夏 | 个人博客</title>
+  <style>
+    :root {
+      --bg: #07111f;
+      --panel: rgba(8, 15, 30, 0.82);
+      --text: #f5f7ff;
+      --muted: #8e9bbf;
+      --accent: #5bc0ff;
+      --accent-2: #8d7cff;
+      --border: rgba(255, 255, 255, 0.12);
+      --shadow: 0 20px 45px rgba(0, 0, 0, 0.28);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Microsoft YaHei", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(91, 192, 255, .24), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(141, 124, 255, .26), transparent 22%),
+        linear-gradient(135deg, var(--bg), #0f1b32 60%, #0a1122);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .wrap {
+      width: min(1200px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 60px;
+      position: relative;
+    }
+
+    .ambient {
+      position: fixed;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      filter: blur(70px);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .ambient.one {
+      top: -80px;
+      left: -60px;
+      background: #5bc0ff;
+    }
+
+    .ambient.two {
+      bottom: 80px;
+      right: -60px;
+      background: #8d7cff;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      margin-top: 8px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 10;
+    }
+
+    .brand {
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .nav {
+      display: flex;
+      gap: 16px;
+      color: var(--muted);
+    }
+
+    .nav a:hover {
+      color: var(--text);
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      padding: 34px 0 22px;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card,
+    .side-card,
+    .post-card,
+    .about-card,
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+    }
+
+    .hero-card {
+      padding: 36px;
+      min-height: 360px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 0.8rem;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(91, 192, 255, 0.18);
+      color: #bfeeff;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      width: fit-content;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 3.3vw, 3rem);
+      margin: 0 0 12px;
+      line-height: 1.1;
+    }
+
+    .lead {
+      font-size: 1.02rem;
+      color: var(--muted);
+      line-height: 1.8;
+      max-width: 640px;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-top: 24px;
+    }
+
+    .btn {
+      padding: 12px 18px;
+      border-radius: 999px;
+      font-weight: 600;
+      transition: transform .2s ease, background .2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      color: white;
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .side-card {
+      padding: 22px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .stat {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      width: fit-content;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #dfe9ff;
+      font-size: 0.9rem;
+      margin-bottom: 8px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    }
+
+    .panel-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 18px;
+      margin-top: 8px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .panel {
+      padding: 20px;
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
+    }
+
+    .panel p {
+      color: var(--muted);
+      line-height: 1.75;
+      margin: 0;
+    }
+
+    .topic-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .topic-item {
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .topic-item span:last-child {
+      color: #9db5d8;
+      font-size: 0.9rem;
+    }
+
+    .timeline {
+      list-style: none;
+      padding: 0;
+      margin: 12px 0 0;
+      display: grid;
+      gap: 12px;
+    }
+
+    .timeline li {
+      padding-left: 16px;
+      border-left: 2px solid rgba(91, 192, 255, 0.35);
+      position: relative;
+    }
+
+    .timeline li::before {
+      content: "";
+      position: absolute;
+      left: -5px;
+      top: 6px;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+    }
+
+    .timeline strong {
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 26px 0 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+    }
+
+    .grid {
+      display: grid;
+      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .post-card {
+      padding: 22px;
+      transition: transform .2s ease, border-color .2s ease;
+    }
+
+    .post-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(91, 192, 255, 0.35);
+    }
+
+    .post-card h3 {
+      margin: 0 0 8px;
+      font-size: 1.15rem;
+    }
+
+    .post-card p {
+      color: var(--muted);
+      line-height: 1.7;
+      margin: 0 0 12px;
+    }
+
+    .meta {
+      color: #9db5d8;
+      font-size: 0.9rem;
+    }
+
+    .about-card {
+      padding: 24px;
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 20px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .avatar {
+      min-height: 240px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, rgba(91, 192, 255, 0.3), rgba(141, 124, 255, 0.28));
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 3.2rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: white;
+    }
+
+    .about-text {
+      color: var(--muted);
+      line-height: 1.8;
+    }
+
+    .footer {
+      margin-top: 28px;
+      color: var(--muted);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 900px) {
+
+      .hero,
+      .about-card,
+      .panel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .wrap {
+        width: min(100%, calc(100% - 20px));
+        padding: 14px 0 40px;
+      }
+
+      .topbar {
+        border-radius: 18px;
+        flex-direction: column;
+        gap: 12px;
+        padding: 14px 16px;
+      }
+
+      .nav {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 10px 14px;
+      }
+
+      .hero {
+        padding: 20px 0 16px;
+        gap: 16px;
+      }
+
+      .hero-card {
+        padding: 20px;
+        min-height: auto;
+      }
+
+      h1 {
+        font-size: 1.7rem;
+      }
+
+      .lead {
+        font-size: 0.96rem;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .side-card,
+      .post-card,
+      .about-card,
+      .panel {
+        padding: 16px;
+      }
+
+      .avatar {
+        min-height: 180px;
+        font-size: 2.4rem;
+      }
+
+      .section-title {
+        margin: 20px 0 10px;
+        font-size: 0.95rem;
+      }
+
+      .topic-item {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="ambient one"></div>
+  <div class="ambient two"></div>
+
+  <div class="wrap">
+    <header class="topbar">
+      <div class="brand">Lin's Blog</div>
+      <nav class="nav">
+        <a href="#posts">文章</a>
+        <a href="#topics">专题</a>
+        <a href="#about">关于</a>
+        <a href="#contact">联系</a>
+      </nav>
+    </header>
+
+    <section class="hero">
+      <div class="hero-card">
+        <span class="eyebrow">Personal Blog</span>
+        <h1>分享灵感，记录成长，也欢迎来到我的小世界。</h1>
+        <p class="lead">
+          这里是一个更完整的个人博客首页示例，融合了玻璃拟态、专题展示和更有层次的内容排版，适合做个人作品集、随笔站或技术博客。
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#posts">阅读文章</a>
+          <a class="btn btn-secondary" href="#about">了解我</a>
+        </div>
+      </div>
+
+      <aside class="side-card">
+        <div class="status-pill"><span class="status-dot"></span> 最近正在更新</div>
+        <div class="stat">
+          <strong>12+</strong>
+          <span>近期原创文章</span>
+        </div>
+        <div class="stat">
+          <strong>4年</strong>
+          <span>持续记录生活与技术</span>
+        </div>
+        <div class="stat">
+          <strong>100%</strong>
+          <span>热爱分享与创作</span>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel-grid" id="topics">
+      <div class="panel">
+        <div class="section-title">
+          <span>精选专题</span>
+          <a href="#" style="color: var(--accent);">全部</a>
+        </div>
+        <div class="topic-list">
+          <div class="topic-item"><span>生活方式</span><span>7 篇</span></div>
+          <div class="topic-item"><span>写作与表达</span><span>4 篇</span></div>
+          <div class="topic-item"><span>设计与灵感</span><span>3 篇</span></div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="section-title">
+          <span>最近动态</span>
+          <a href="#" style="color: var(--accent);">更多</a>
+        </div>
+        <ul class="timeline">
+          <li><strong>更新文章</strong><span>“如何把平凡日子过得更有仪式感”</span></li>
+          <li><strong>新增专题</strong><span>“写作与表达”栏目上线</span></li>
+          <li><strong>整理内容</strong><span>主页结构优化，视觉更统一</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="posts">
+      <div class="section-title">
+        <span>最新文章</span>
+        <a href="#" style="color: var(--accent);">查看更多</a>
+      </div>
+      <div class="grid">
+        <article class="post-card">
+          <h3>如何把平凡日子过成有仪式感的生活</h3>
+          <p>记录一个小而稳定的习惯，如何逐渐改变生活的节奏，让每一天都更有温度。</p>
+          <div class="meta">2026-07-02 · 生活随笔</div>
+        </article>
+        <article class="post-card">
+          <h3>从零开始搭建一个属于自己的网页</h3>
+          <p>用简洁的结构和细腻的色彩，让一个静态页面从普通变成有记忆点的作品。</p>
+          <div class="meta">2026-06-28 · 技术分享</div>
+        </article>
+        <article class="post-card">
+          <h3>写作的意义，不只是表达，更是整理自己</h3>
+          <p>当思想被写下来，很多混乱的情绪也会被一点点理清。</p>
+          <div class="meta">2026-06-20 · 个人感悟</div>
+        </article>
+        <article class="post-card">
+          <h3>一个适合长期坚持的学习方法</h3>
+          <p>不是追热点，而是建立一套稳定的节奏，让成长持续发生。</p>
+          <div class="meta">2026-06-12 · 学习方法</div>
+        </article>
+      </div>
+    </section>
+
+    <section id="about" class="about-card">
+      <div class="avatar">LX</div>
+      <div>
+        <div class="section-title" style="margin-top: 0;">关于我</div>
+        <p class="about-text">
+          我是林见夏，一个热爱设计、写作和细腻生活的人。喜欢把想法变成可见的体验，也愿意用文字记录一点点成长。
+          这次升级后的主页，保留了温柔的氛围，同时加入了更清晰的内容组织与视觉层次。
+        </p>
+        <p class="about-text" id="contact">
+          如果你也喜欢创作、阅读、或者简单生活的美感，可以通过邮箱与我交流：hello@linsblog.com
+        </p>
+      </div>
+    </section>
+
+    <div class="footer">© 2026 Lin's Blog · Crafted with care</div>
+  </div>
+</body>
+
+</html>
