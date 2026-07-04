@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block title %}关于我{% endblock %}
+
+{% block content %}
+  <!-- 关于页面：描述博客目的与未来扩展方向 -->
+  <section class="about-card" id="about">
+    <div class="avatar">Hi</div>
+    <div>
+      <h1>关于这个博客</h1>
+      <p class="about-text">这是一个基于 Flask 的个人博客演示项目，学习模板继承、路由管理和简单的数据渲染。</p>
+      <p class="about-text">当前内容使用模拟内存数据，适合快速搭建演示、测试布局与页面跳转。</p>
+      <p class="about-text">后续可继续扩展：接入数据库、增加文章编辑后台、实现用户登录与评论系统等。</p>
+    </div>
+  </section>
+{% endblock %}

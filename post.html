@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+  <!-- 文章详情页：根据 post 变量展示标题和内容 -->
+  {% if post %}
+    <article class="post-card">
+      <h1>{{ post.title }}</h1>
+      <p class="meta">文章 ID：{{ post.id }}</p>
+      <hr>
+      <p>{{ post.content }}</p>
+      <p style="margin-top: 30px;"><a href="{{ url_for('index') }}">← 返回首页</a></p>
+    </article>
+  {% else %}
+    <article class="post-card">
+      <h1>😥 文章未找到</h1>
+      <p>你访问的文章不存在，可能是链接错误或文章已删除。</p>
+      <p><a href="{{ url_for('index') }}">返回首页继续浏览</a></p>
+    </article>
+  {% endif %}
+{% endblock %}
